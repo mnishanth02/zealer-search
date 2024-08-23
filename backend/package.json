@@ -1,0 +1,22 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "type": "module",
+  "author": "Nishanth Murugan",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.12.1",
+    "hono": "^4.5.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.16.1",
+    "tsx": "^4.17.0",
+    "typescript": "^5.5.4"
+  }
+}
