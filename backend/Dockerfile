@@ -1,6 +1,9 @@
 FROM node:20-alpine AS base
 
 FROM base AS builder
+ARG SEARXNG_API_URL
+ENV SEARXNG_API_URL=${SEARXNG_API_URL}
+
 WORKDIR /app
 
 RUN apk add --no-cache gcompat
@@ -15,6 +18,8 @@ RUN pnpm run build
 
 
 FROM base AS runner
+ARG SEARXNG_API_URL
+ENV SEARXNG_API_URL=${SEARXNG_API_URL}
 WORKDIR /app
 
 RUN apk add --no-cache libc6-compat
@@ -28,9 +33,11 @@ COPY --from=builder --chown=hono:nodejs /app/dist /app/dist
 COPY --from=builder --chown=hono:nodejs /app/package.json /app/package.json
 COPY --from=builder --chown=hono:nodejs /app/pnpm-lock.yaml /app/pnpm-lock.yaml
 
+# RUN sed -i "s|SEARXNG = \".*\"|SEARXNG = \"${SEARXNG_API_URL}\"|g" /app/config.toml
+
 RUN pnpm install --prod
 
 USER hono
-EXPOSE 3002
+EXPOSE 3001
 
 CMD ["node", "/app/dist/index.js"]

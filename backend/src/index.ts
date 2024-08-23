@@ -7,7 +7,7 @@ app.get('/', (c) => {
   return c.text('Hello Hono from Zealer Search!');
 });
 
-const port = 3002;
+const port = 3001;
 console.log(`Server is running on port ${port}`);
 
 serve({
